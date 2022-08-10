@@ -1,12 +1,16 @@
 import { login, logout, getInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken,
+  setTBToken, getTBToken, removeTBToken,
+  setTBRefreshToken, getTBRefreshToken, removeTBRefreshToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+    tbToken: getTBToken(),
+    refreshToken: getTBRefreshToken()
   }
 }
 
@@ -24,6 +28,12 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_TBTOKEN: (state, tbtoken) => {
+    state.tbToken = tbtoken
+  },
+  SET_REFRESH: (state, refreshtoken) => {
+    state.refreshToken = refreshtoken
   }
 }
 
@@ -35,7 +45,11 @@ const actions = {
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.token)
+        commit('SET_TBTOKEN', data.tbToken)
+        commit('SET_REFRESH', data.refreshToken)
         setToken(data.token)
+        setTBToken(data.tbtoken)
+        setTBRefreshToken(data.refreshToken)
         resolve()
       }).catch(error => {
         reject(error)
@@ -69,6 +83,8 @@ const actions = {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
         removeToken() // must remove  token  first
+        removeTBToken()
+        removeTBRefreshToken()
         resetRouter()
         commit('RESET_STATE')
         resolve()
@@ -82,6 +98,8 @@ const actions = {
   resetToken({ commit }) {
     return new Promise(resolve => {
       removeToken() // must remove  token  first
+      removeTBToken()
+      removeTBRefreshToken()
       commit('RESET_STATE')
       resolve()
     })

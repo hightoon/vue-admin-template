@@ -1,3 +1,6 @@
+const axios = require('axios')
+const TB_BASE_URL = 'http://120.55.92.168:8080'
+
 /**
  * @param {string} url
  * @returns {Object}
@@ -21,5 +24,6 @@ function param2Obj(url) {
 }
 
 module.exports = {
-  param2Obj
+  param2Obj,
+  TB_BASE_URL
 }

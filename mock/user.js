@@ -1,10 +1,18 @@
+const axios = require('axios')
+const { TB_BASE_URL } = require('./utils')
 
 const tokens = {
   admin: {
-    token: 'admin-token'
+    token: 'admin-token',
+    tbtoken: ''
   },
   editor: {
     token: 'editor-token'
+  },
+  fps: {
+    token: 'admin-token',
+    tbtoken: '',
+    tbrefresh: ''
   }
 }
 
@@ -13,7 +21,8 @@ const users = {
     roles: ['admin'],
     introduction: 'I am a super administrator',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-    name: 'Super Admin'
+    name: 'Super_Admin',
+    tbtoken: ''
   },
   'editor-token': {
     roles: ['editor'],
@@ -23,15 +32,51 @@ const users = {
   }
 }
 
+function loginTB(cb) {
+  axios.post(TB_BASE_URL + '/api/auth/login', {
+    username: 'tenant@thingsboard.org',
+    password: 'tenant'
+  }).then(function(response) {
+    console.log(response.data)
+  }).catch(function(error) {
+    console.log(error)
+  })
+}
+
+const loginTBAsync = async () => {
+  try {
+    const res = await axios.post(TB_BASE_URL + '/api/auth/login', {
+      username: 'tenant@thingsboard.org',
+      password: 'tenant'
+    })
+    tokens.fps.tbtoken = res.data.token
+    tokens.fps.refreshToken = res.data.refreshToken
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+loginTBAsync()
+
 module.exports = [
   // user login
   {
     url: '/vue-admin-template/user/login',
     type: 'post',
     response: config => {
-      const { username } = config.body
-      const token = tokens[username]
-
+      if (config.body.username !== 'fps' || config.body.password !== 'fps@qq.com') {
+        return {
+          code: 60204,
+          message: '用户名或密码错!'
+        }
+      }
+      var token = tokens[config.body.username]
+      loginTB(function(data) {
+        token.tbtoken = data.token
+        token.tbrefresh = data.refreshToken
+        users[token.token].tbtoken = token.tbtoken
+        console.log(data)
+      })
       // mock error
       if (!token) {
         return {
@@ -81,4 +126,5 @@ module.exports = [
       }
     }
   }
+
 ]

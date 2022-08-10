@@ -51,31 +51,130 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard' }
     }]
   },
 
+  // device management
   {
-    path: '/example',
+    path: '/device',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
+    redirect: '/device',
+    name: 'Device',
+    meta: { title: '设备管理', icon: 'el-icon-cpu' },
+    children: [
+      {
+        path: 'devices',
+        name: 'Devices',
+        component: () => import('@/views/table/devices'),
+        meta: { title: '设备列表', icon: 'table' }
+      },
+      {
+        path: 'newdevices',
+        name: 'NewDevices',
+        component: () => import('@/views/table/newdevices'),
+        meta: { title: '新上设备', icon: 'tree' }
+      }
+    ]
+  },
+
+  // data management
+  {
+    path: '/data',
+    component: Layout,
+    redirect: '/data/rawdevice',
+    name: 'Data',
+    meta: { title: '数据管理', icon: 'el-icon-document' },
+    children: [
+      {
+        path: 'rawdevice',
+        name: 'RawDeviceData',
+        component: () => import('@/views/table/rawdevicedata'),
+        meta: { title: '原始设备数据', icon: 'table' }
+      },
+      {
+        path: 'rawgateway',
+        name: 'RawGateWayData',
+        component: () => import('@/views/table/rawdevicedata'),
+        meta: { title: '原始网关数据', icon: 'tree' }
+      }
+    ]
+  },
+
+  // 告警管理
+  /*{
+    path: '/alert',
+    component: Layout,
+    redirect: '/alert/list',
+    name: 'Alert',
+    meta: { title: '告警管理', icon: 'el-icon-s-help' },
     children: [
       {
         path: 'table',
         name: 'Table',
         component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        meta: { title: '历史告警', icon: 'table' }
       },
       {
         path: 'tree',
         name: 'Tree',
         component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        meta: { title: '历史故障', icon: 'tree' }
       }
     ]
-  },
+  },*/
+
+  // 网关管理
+  /*{
+    path: '/gateway',
+    component: Layout,
+    redirect: '/gateway/list',
+    name: 'Gateway',
+    meta: { title: '网关管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'table',
+        name: 'Table',
+        component: () => import('@/views/table/index'),
+        meta: { title: '测点管理', icon: 'table' }
+      },
+      {
+        path: 'tree',
+        name: 'Tree',
+        component: () => import('@/views/tree/index'),
+        meta: { title: '流量监控', icon: 'tree' }
+      }
+    ]
+  },*/
+
+  // 权限管理
+  /*{
+    path: '/auth',
+    component: Layout,
+    redirect: '/auth/manage',
+    name: 'Auth',
+    meta: { title: '权限管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'table',
+        name: 'Table',
+        component: () => import('@/views/table/index'),
+        meta: { title: '角色管理', icon: 'table' }
+      },
+      {
+        path: 'tree',
+        name: 'Tree',
+        component: () => import('@/views/tree/index'),
+        meta: { title: '用户管理', icon: 'tree' }
+      },
+      {
+        path: 'tree',
+        name: 'Tree',
+        component: () => import('@/views/tree/index'),
+        meta: { title: '接口管理', icon: 'tree' }
+      }
+    ]
+  },*/
 
   {
     path: '/form',
