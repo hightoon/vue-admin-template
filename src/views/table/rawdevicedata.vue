@@ -13,34 +13,49 @@
           {{ scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column align="center" label="上线时间" width="150">
+      <el-table-column align="center" label="设备序列号" width="150">
         <template slot-scope="scope">
           {{ scope.row[0] }}
         </template>
       </el-table-column>
-      <el-table-column label="最后在线时间" width="150">
+      <el-table-column label="时间" width="150">
         <template slot-scope="scope">
           {{ scope.row[1] }}
         </template>
       </el-table-column>
-      <el-table-column label="终端客户" width="150" align="center">
+      <el-table-column label="设备序号" width="150" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row[2] }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="序列号" width="150" align="center">
+      <el-table-column label="硬件版本号" width="150" align="center">
         <template slot-scope="scope">
           {{ scope.row[3] }}
         </template>
       </el-table-column>
-      <el-table-column label="设备型号" width="150" align="center">
+      <el-table-column label="总运行次数" width="150" align="center">
         <template slot-scope="scope">
           {{ scope.row[4] }}
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="操作" width="200" align="center">
+      <el-table-column label="软件版本号" width="150" align="center">
         <template slot-scope="scope">
-          <el-tag :type="scope.row[4] | statusFilter">{{ scope.row[4] }}</el-tag>
+          {{ scope.row[4] }}
+        </template>
+      </el-table-column>
+      <el-table-column label="总运行时间(小时)" width="150" align="center">
+        <template slot-scope="scope">
+          {{ scope.row[4] }}
+        </template>
+      </el-table-column>
+      <el-table-column label="总上电时间(小时)" width="150" align="center">
+        <template slot-scope="scope">
+          {{ scope.row[4] }}
+        </template>
+      </el-table-column>
+      <el-table-column label="总计故障次数" width="150" align="center">
+        <template slot-scope="scope">
+          {{ scope.row[4] }}
         </template>
       </el-table-column>
     </el-table>

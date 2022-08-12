@@ -71,11 +71,11 @@
       <el-table-column class-name="status-col" label="操作" width="360" align="center">
         <!--template slot-scope="scope"-->
         <div class="tag-group">
-          <el-tag>详情</el-tag> &nbsp;
-          <el-tag>编辑</el-tag> &nbsp;
-          <el-tag>实时监控</el-tag> &nbsp;
-          <el-tag>配置网关</el-tag> &nbsp;
-          <el-tag type="warning">离线分析</el-tag> &nbsp;
+          <el-link type="primary" @click="showDeviceDetails">详情</el-link> &nbsp;
+          <el-link type="primary">编辑</el-link> &nbsp;
+          <el-link type="primary">实时监控</el-link> &nbsp;
+          <el-link type="primary">配置网关</el-link> &nbsp;
+          <el-link type="warning">离线分析</el-link> &nbsp;
         </div>
           <!--el-tag :type="scope.row[4] | statusFilter">{{ scope.row[4] }}</el-tag-->
         <!--/template-->
@@ -157,6 +157,10 @@ export default {
         this.list = response.data.items
         this.listLoading = false
       }) */
+    },
+
+    showDeviceDetails() {
+      alert('hello,device')
     }
   }
 }

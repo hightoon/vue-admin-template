@@ -101,6 +101,21 @@ export const constantRoutes = [
     ]
   },
 
+  {
+    path: '/otherinfo',
+    component: Layout,
+    name: 'OtherInfo',
+    meta: { title: '其他', icon: 'el-icon-document' },
+    children: [
+      {
+        path: 'info',
+        name: 'Info',
+        component: () => import('@/views/info/infopage'),
+        meta: { title: '其他信息', icon: 'tree'}
+      }
+    ]
+  },
+
   // 告警管理
   /*{
     path: '/alert',
@@ -176,7 +191,7 @@ export const constantRoutes = [
     ]
   },*/
 
-  {
+  /* {
     path: '/form',
     component: Layout,
     children: [
@@ -257,7 +272,7 @@ export const constantRoutes = [
         meta: { title: 'External Link', icon: 'link' }
       }
     ]
-  },
+  }, */
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
