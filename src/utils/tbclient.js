@@ -56,8 +56,20 @@ export function getTimeSeries(tbtoken, type, entityId) {
   })
 }
 
-export function getDeviceInfo(tbtoken) {
-  const url = TB_BASE_URL + '/api/tenant/deviceInfos?pageSize=10&page=0&sortProperty=createdTime&sortOrder=DESC&deviceProfileId='
+export function getLatestTsValue(tbtoken, type, entityId, keys) {
+  const url = TB_BASE_URL + '/api/plugins/telemetry/' + type + '/' + entityId + '/values/timeseries?keys=' + keys
+  return axios.get(url, {
+    headers: { Authorization: 'Bearer ' + tbtoken }
+  })
+}
+
+export function getDeviceInfo(tbtoken, text = '', profileId = '') {
+  const url = TB_BASE_URL + `/api/tenant/deviceInfos?pageSize=10&page=0&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=${profileId}&textSearch=${text}`
+  return axios.get(url, { headers: { Authorization: 'Bearer ' + tbtoken }})
+}
+
+export function device(tbtoken, id) {
+  const url = TB_BASE_URL + `/api/device/${id}`
   return axios.get(url, { headers: { Authorization: 'Bearer ' + tbtoken }})
 }
 

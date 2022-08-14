@@ -13,6 +13,11 @@
           {{ scope.$index + 1 }}
         </template>
       </el-table-column>
+      <el-table-column align="center" label="设备名称" width="120">
+        <template slot-scope="scope">
+          {{ scope.row.name }}
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="上线时间" width="120">
         <template slot-scope="scope">
           {{ scope.row.created }}
@@ -85,9 +90,11 @@
 </template>
 
 <script>
-import { getDevices, refresh, getDeviceInfo } from '@/utils/tbclient'
+import { getDevices, refresh, getDeviceInfo,
+  device, getTimeSeries, getLatestTsValue, getUri } from '@/utils/tbclient'
 import { getTBRefreshToken, getTBToken, setTBRefreshToken, setTBToken } from '@/utils/auth'
 import { formatTime } from '@/utils'
+import { tsAnyKeyword } from '@babel/types'
 
 export default {
   filters: {
@@ -113,24 +120,29 @@ export default {
     fetchData() {
       this.listLoading = true
       const items = []
+      const deviceInfoMap = {}
 
       getDeviceInfo(getTBToken()).then(response => {
         console.log(response.data)
         const devices = response.data
+        // console.log(devices)
         devices.data.forEach(function(item) {
           const curItem = {}
+          curItem.name = item.name
           curItem.id = item.id.id
           curItem.customerTitle = item.customerTitle
           curItem.created = formatTime(item.createdTime)
           curItem.deviceType = item.deviceData.configuration.type
           items.push(curItem)
+          getTimeSeries(getTBToken(), 'DEVICE', curItem.id).then(r => {
+            console.log(r)
+          })
         })
         // this.list = items
         // this.listLoading = false
         return getDevices(getTBToken())
       }).then(response => {
         const deviceInfo = response.data.data
-        const deviceInfoMap = {}
         deviceInfo.forEach((d) => {
           deviceInfoMap[d.entityId.id] = d.latest.ATTRIBUTE
         })
@@ -145,6 +157,18 @@ export default {
         console.log(items)
         this.list = items
         this.listLoading = false
+        var tsValReqs = []
+        items.forEach(it => {
+          if (it.name.includes('FAN')) {
+            tsValReqs.push(it.id)
+            tsValReqs.push(getLatestTsValue(getTBToken(), 'DEVICE', it.id, 'soft_version,hard_version,device_node_id'))
+          }
+        })
+        return Promise.all(tsValReqs)
+      }).then(values => {
+        values.forEach(v => {
+          console.log(v)
+        })
       }).catch(e => {
         console.log(e)
         refresh(getTBToken(), getTBRefreshToken()).then(r => {
