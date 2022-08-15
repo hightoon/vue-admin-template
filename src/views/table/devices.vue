@@ -1,5 +1,20 @@
 <template>
   <div class="app-container">
+    <el-form :inline="true" class="demo-form-inline">
+      <el-form-item label="设备名称">
+        <el-input placeholder="FAN"></el-input>
+      </el-form-item>
+      <el-form-item label="设备类型">
+        <el-select placeholder="">
+          <el-option label="Device" value="device"></el-option>
+          <el-option label="Gateway" value="gateway"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary">查询</el-button>
+      </el-form-item>
+    </el-form>
+
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -65,12 +80,12 @@
       </el-table-column>
       <el-table-column label="硬件版本" width="120" align="center">
         <template slot-scope="scope">
-          {{ '1.0.0' }}
+          {{ scope.row.hardVer }}
         </template>
       </el-table-column>
       <el-table-column label="软件版本" width="120" align="center">
         <template slot-scope="scope">
-          {{ '1.0.1' }}
+          {{ scope.row.softVer }}
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" label="操作" width="360" align="center">
@@ -154,9 +169,6 @@ export default {
           if (deviceInfoMap[item.id].provisionState.value === 'provisioned') item.provisionState = '启用'
           item.lastActivityTime = formatTime(deviceInfoMap[item.id].lastActivityTime.value)
         })
-        console.log(items)
-        this.list = items
-        this.listLoading = false
         var tsValReqs = []
         items.forEach(it => {
           if (it.name.includes('FAN')) {
@@ -166,16 +178,29 @@ export default {
         })
         return Promise.all(tsValReqs)
       }).then(values => {
-        values.forEach(v => {
-          console.log(v)
+        for (let i = 0; i < values.length; i += 2) {
+          console.log(values[i])
+          console.log(values[i+1])
+          deviceInfoMap[values[i]].softVer = values[i+1].data.soft_version[0].value
+          deviceInfoMap[values[i]].hardVer = values[i+1].data.hard_version[0].value
+        }
+        items.forEach(item => {
+          item.softVer = deviceInfoMap[item.id].softVer
+          item.hardVer = deviceInfoMap[item.id].hardVer
         })
+        this.list = items
+        this.listLoading = false
       }).catch(e => {
         console.log(e)
-        refresh(getTBToken(), getTBRefreshToken()).then(r => {
-          setTBToken(r.data.token)
-          setTBRefreshToken(r.data.refreshToken)
-          location.reload()
-        })
+        if (e.response) {
+          if (e.response.status === 401) {
+            refresh(getTBToken(), getTBRefreshToken()).then(r => {
+              setTBToken(r.data.token)
+              setTBRefreshToken(r.data.refreshToken)
+              location.reload()
+            })
+          }
+        }
       })
       /* getList().then(response => {
         this.list = response.data.items
