@@ -89,16 +89,16 @@
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" label="操作" width="360" align="center">
-        <!--template slot-scope="scope"-->
+        <template slot-scope="scope">
         <div class="tag-group">
-          <el-link type="primary" @click="showDeviceDetails">详情</el-link> &nbsp;
+          <el-link type="primary" @click="showDeviceDetails(scope.row.id)">详情</el-link> &nbsp;
           <el-link type="primary">编辑</el-link> &nbsp;
           <el-link type="primary">实时监控</el-link> &nbsp;
           <el-link type="primary">配置网关</el-link> &nbsp;
           <el-link type="warning">离线分析</el-link> &nbsp;
         </div>
           <!--el-tag :type="scope.row[4] | statusFilter">{{ scope.row[4] }}</el-tag-->
-        <!--/template-->
+        </template>
       </el-table-column>
     </el-table>
   </div>
@@ -137,7 +137,7 @@ export default {
       const items = []
       const deviceInfoMap = {}
 
-      getDeviceInfo(getTBToken()).then(response => {
+      getDeviceInfo(getTBToken(), 'FAN').then(response => {
         console.log(response.data)
         const devices = response.data
         // console.log(devices)
@@ -208,8 +208,9 @@ export default {
       }) */
     },
 
-    showDeviceDetails() {
-      alert('hello,device')
+    showDeviceDetails(id) {
+      window.location.href = '/#/detail/' + id
+      // this.$router.push('/#/detail/' + id)
     }
   }
 }

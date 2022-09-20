@@ -111,14 +111,14 @@ export function getLatestTsValue(tbtoken, type, entityId, keys) {
 }
 
 export function getTsValuesInterval(tbtoken, type, entityId, keys, start, end) {
-  const url = TB_BASE_URL + '/api/plugins/telemetry/' + type + '/' + entityId + '/values/timeseries?keys=' + keys + '&' + 'startTs=' + start + '&' + 'endTs=' + end
+  const url = TB_BASE_URL + '/api/plugins/telemetry/' + type + '/' + entityId + '/values/timeseries?keys=' + keys + '&' + 'startTs=' + start + '&' + 'endTs=' + end + '&' + 'limit=100'
   return axios.get(url, {
     headers: { Authorization: 'Bearer ' + tbtoken }
   })
 }
 
 export function getDeviceInfo(tbtoken, text = '', profileId = '') {
-  const url = TB_BASE_URL + `/api/tenant/deviceInfos?pageSize=10&page=0&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=${profileId}&textSearch=${text}`
+  const url = TB_BASE_URL + `/api/tenant/deviceInfos?pageSize=100&page=0&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=${profileId}&textSearch=${text}`
   return axios.get(url, { headers: { Authorization: 'Bearer ' + tbtoken }})
 }
 

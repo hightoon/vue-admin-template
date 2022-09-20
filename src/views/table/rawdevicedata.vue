@@ -9,7 +9,8 @@
         range-separator="到"
         start-placeholder="Start date"
         end-placeholder="End date"
-      />
+      /> &nbsp;
+      <el-button type="primary" @click="notif">查询</el-button>
     </div>
 
     <el-table
@@ -39,8 +40,8 @@ import { getTBToken, setTBToken, getTBRefreshToken, setTBRefreshToken } from '@/
 
 const start = new Date()
 const end = new Date()
-start.setTime(start.getTime() - 3600 * 1000 * 5)
-const interval = [
+start.setTime(start.getTime() - 3600 * 1000 * 100)
+const defaultInterval = [
   start, // new Date(2022, 10, 10, 10, 10)
   end
 ]
@@ -66,7 +67,7 @@ export default {
       list: null,
       listLoading: true,
       tableThread: fullTableThread,
-      interval: interval
+      interval: defaultInterval
     }
   },
   created() {
@@ -76,24 +77,37 @@ export default {
     fetchData() {
       this.listLoading = true
       this.list = []
-      console.log(interval)
-      getTsValuesInterval(getTBToken(), 'DEVICE', '976b7ef0-1f07-11ed-badf-b9ba810a872a', fullTableThread.join(','), interval[0].getTime(), interval[1].getTime()).then(r => {
-        console.log(r)
+      // console.log(this.interval)
+      // console.log(this.interval[0].getTime(), this.interval[1].getTime(), getTBToken())
+      getFanDevs(getTBToken()).then(r => {
+        console.log(r.data.data)
+        const deviceIds = []
+        r.data.data.forEach(d => {
+          deviceIds.push(d.entityId.id)
+        })
+        console.log(deviceIds)
+        return Promise.all(deviceIds)
+      }).then(devices => {
         const myList = []
-        if (r.data['硬件版本号']) {
-          for (let i = 0; i < r.data['硬件版本号'].length; i++) {
-            const row = {}
-            fullTableThread.forEach(k => {
-              if (r.data[k] && r.data[k][i]) {
-                row[k] = r.data[k][i].value
-              } else {
-                row[k] = 'NA'
+        devices.forEach(d => {
+          getTsValuesInterval(getTBToken(), 'DEVICE', d, fullTableThread.join(','), this.interval[0].getTime(), this.interval[1].getTime()).then(r => {
+            console.log(r)
+            if (r.data['硬件版本号']) {
+              for (let i = 0; i < r.data['硬件版本号'].length; i++) {
+                const row = {}
+                fullTableThread.forEach(k => {
+                  if (r.data[k] && r.data[k][i]) {
+                    row[k] = r.data[k][i].value
+                  } else {
+                    row[k] = 'NA'
+                  }
+                })
+                myList.push(row)
               }
-            })
-            myList.push(row)
-          }
-          this.list = myList
-        }
+            }
+          })
+        })
+        this.list = myList
         this.listLoading = false
       }).catch(e => {
         console.log(e)
@@ -107,6 +121,11 @@ export default {
           }
         }
       })
+    },
+
+    notif() {
+      console.log(this.interval)
+      this.fetchData()
     }
   }
 }

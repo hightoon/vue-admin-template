@@ -55,6 +55,20 @@ export const constantRoutes = [
     }]
   },
 
+  {
+    path: '/detail/:id',
+    component: Layout,
+    redirect: '/device/devices',
+    children: [
+      {
+        path: '',
+        name: 'DeviceDetail',
+        component: () => import('@/views/table/devdetail')
+      }
+    ],
+    hide: true
+  },
+
   // device management
   {
     path: '/device',

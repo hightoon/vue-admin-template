@@ -14,10 +14,10 @@
     "test:ci": "npm run lint && npm run test:unit"
   },
   "dependencies": {
-    "echarts": "5.3.3",
     "axios": "0.18.1",
     "core-js": "3.6.5",
-    "element-ui": "2.13.2",
+    "echarts": "5.3.3",
+    "element-ui": "^2.15.10",
     "js-cookie": "2.2.0",
     "normalize.css": "7.0.0",
     "nprogress": "0.2.0",
