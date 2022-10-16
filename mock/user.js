@@ -37,6 +37,7 @@ function loginTB(cb) {
     username: 'tenant@thingsboard.org',
     password: 'tenant'
   }).then(function(response) {
+    cb(response.data)
     console.log(response.data)
   }).catch(function(error) {
     console.log(error)
@@ -70,20 +71,20 @@ module.exports = [
           message: '用户名或密码错!'
         }
       }
-      var token = tokens[config.body.username]
-      loginTB(function(data) {
+      /*loginTB(function(data) {
         token.tbtoken = data.token
         token.tbrefresh = data.refreshToken
         users[token.token].tbtoken = token.tbtoken
-        console.log(data)
-      })
+        // console.log(data)
+      })*/
+      var token = tokens[config.body.username]
       // mock error
-      if (!token) {
+      /*if (!token) {
         return {
           code: 60204,
           message: 'Account and password are incorrect.'
         }
-      }
+      }*/
 
       return {
         code: 20000,

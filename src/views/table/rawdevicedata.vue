@@ -36,7 +36,7 @@
 <script>
 import { getDevices, getTimeSeries, getDeviceInfo, getLatestTsValue,
   getTsValuesInterval, getFanDevs, refresh } from '@/utils/tbclient'
-import { getTBToken, setTBToken, getTBRefreshToken, setTBRefreshToken } from '@/utils/auth'
+import { getTBToken, setTBToken, getTBRefreshToken, setTBRefreshToken, setToken } from '@/utils/auth'
 
 const start = new Date()
 const end = new Date()
@@ -114,6 +114,7 @@ export default {
         if (e.response) {
           if (e.response.status === 401) {
             refresh(getTBToken(), getTBRefreshToken()).then(r => {
+              setToken(r.data.token)
               setTBToken(r.data.token)
               setTBRefreshToken(r.data.refreshToken)
               location.reload()

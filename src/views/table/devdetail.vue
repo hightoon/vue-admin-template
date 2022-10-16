@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { getLatestTsValue, refresh } from '@/utils/tbclient'
-import { getTBRefreshToken, getTBToken, setTBRefreshToken, setTBToken } from '@/utils/auth'
+import { getTBRefreshToken, getTBToken, setTBRefreshToken, setTBToken, setToken } from '@/utils/auth'
 
 const fullTableThread = ['设备序号', '设备序列号', '硬件版本号', '软件版本号', '总计运行时间(时)', '总计上电时间(时)',
   '总计运行次数', '总计故障次数', '操作模式', '运行模式', '喘振模式', '系统状态', '故障代码', '警告代码', '当前设定值',
@@ -45,6 +45,7 @@ export default {
         if (e.response) {
           if (e.response.status === 401) {
             refresh(getTBToken(), getTBRefreshToken()).then(r => {
+              setToken(r.data.token)
               setTBToken(r.data.token)
               setTBRefreshToken(r.data.refreshToken)
               location.reload()

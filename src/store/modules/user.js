@@ -1,4 +1,5 @@
-import { login, logout, getInfo } from '@/api/user'
+// import { logout, getInfo } from '@/api/user'
+import { login, logout, getInfo } from '@/api/tbuser'
 import { getToken, setToken, removeToken,
   setTBToken, getTBToken, removeTBToken,
   setTBRefreshToken, getTBRefreshToken, removeTBRefreshToken } from '@/utils/auth'
@@ -6,11 +7,11 @@ import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
-    token: getToken(),
+    token: '',
     name: '',
-    avatar: '',
-    tbToken: getTBToken(),
-    refreshToken: getTBRefreshToken()
+    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    tbToken: '',
+    refreshToken: ''
   }
 }
 
@@ -41,17 +42,21 @@ const actions = {
   // user login
   login({ commit }, userInfo) {
     const { username, password } = userInfo
+    console.log(username + password)
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
+        console.log(data)
         commit('SET_TOKEN', data.token)
-        commit('SET_TBTOKEN', data.tbToken)
+        commit('SET_TBTOKEN', data.token)
         commit('SET_REFRESH', data.refreshToken)
+        commit('SET_NAME', username)
         setToken(data.token)
-        setTBToken(data.tbtoken)
+        setTBToken(data.token)
         setTBRefreshToken(data.refreshToken)
         resolve()
       }).catch(error => {
+        console.log('failed')
         reject(error)
       })
     })
@@ -60,17 +65,16 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
+      getInfo(getTBToken()).then(response => {
         const { data } = response
-
+        console.log(data)
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
 
-        const { name, avatar } = data
+        const { name } = data
 
         commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -81,7 +85,7 @@ const actions = {
   // user logout
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
+      logout(getTBToken()).then(() => {
         removeToken() // must remove  token  first
         removeTBToken()
         removeTBRefreshToken()

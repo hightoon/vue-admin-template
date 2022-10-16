@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form :inline="true" class="demo-form-inline">
       <el-form-item label="设备名称">
-        <el-input placeholder="FAN"></el-input>
+        <el-input placeholder="FAN" v-model="devname"></el-input>
       </el-form-item>
       <el-form-item label="设备类型">
         <el-select placeholder="">
@@ -11,7 +11,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary">查询</el-button>
+        <el-button type="primary" @click="search('hello')">查询</el-button>
       </el-form-item>
     </el-form>
 
@@ -107,7 +107,7 @@
 <script>
 import { getDevices, refresh, getDeviceInfo,
   device, getTimeSeries, getLatestTsValue, getUri } from '@/utils/tbclient'
-import { getTBRefreshToken, getTBToken, setTBRefreshToken, setTBToken } from '@/utils/auth'
+import { getTBRefreshToken, getTBToken, setTBRefreshToken, setTBToken, setToken } from '@/utils/auth'
 import { formatTime } from '@/utils'
 import { tsAnyKeyword } from '@babel/types'
 
@@ -125,7 +125,8 @@ export default {
   data() {
     return {
       list: null,
-      listLoading: true
+      listLoading: true,
+      devname: 'FAN'
     }
   },
   created() {
@@ -137,7 +138,7 @@ export default {
       const items = []
       const deviceInfoMap = {}
 
-      getDeviceInfo(getTBToken(), 'FAN').then(response => {
+      getDeviceInfo(getTBToken(), this.devname).then(response => {
         console.log(response.data)
         const devices = response.data
         // console.log(devices)
@@ -195,6 +196,7 @@ export default {
         if (e.response) {
           if (e.response.status === 401) {
             refresh(getTBToken(), getTBRefreshToken()).then(r => {
+              setToken(r.data.token)
               setTBToken(r.data.token)
               setTBRefreshToken(r.data.refreshToken)
               location.reload()
@@ -211,6 +213,10 @@ export default {
     showDeviceDetails(id) {
       window.location.href = '/#/detail/' + id
       // this.$router.push('/#/detail/' + id)
+    },
+
+    search() {
+      this.fetchData()
     }
   }
 }

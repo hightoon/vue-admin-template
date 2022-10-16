@@ -107,7 +107,9 @@ export default {
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
+        console.log('validating')
         if (valid) {
+          console.log('valid name and passwd')
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || '/' })
@@ -116,7 +118,6 @@ export default {
             this.loading = false
           })
         } else {
-          console.log('error submit!!')
           return false
         }
       })
