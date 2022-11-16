@@ -9,27 +9,27 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="时间" width="50">
+      <el-table-column align="center" label="时间" width="80">
         <template slot-scope="scope">
           {{ scope.row[0] }}
         </template>
       </el-table-column>
-      <el-table-column label="终端客户" width="50">
+      <el-table-column label="终端客户" width="80">
         <template slot-scope="scope">
           {{ scope.row[1] }}
         </template>
       </el-table-column>
-      <el-table-column label="设备型号" width="50" align="center">
+      <el-table-column label="设备型号" width="80" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row[2] }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="告警参数" width="50" align="center">
+      <el-table-column label="告警参数" width="80" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row[3] }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="参数值" width="50" align="center">
+      <el-table-column label="参数值" width="80" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row[4] }}</span>
         </template>

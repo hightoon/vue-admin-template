@@ -2,17 +2,17 @@
   <div class="dashboard-editor-container">
 
     <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="8">
+      <el-col :xs="30" :sm="30" :lg="10">
         <div class="chart-wrapper">
-        <latest-warning />
+          <latest-warning />
         </div>
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
+      <el-col :xs="12" :sm="12" :lg="4">
         <div class="chart-wrapper">
           <pie-chart />
         </div>
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
+      <el-col :xs="30" :sm="30" :lg="10">
         <div class="chart-wrapper">
           <latest-fault />
         </div>

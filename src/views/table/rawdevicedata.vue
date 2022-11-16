@@ -10,7 +10,7 @@
         start-placeholder="Start date"
         end-placeholder="End date"
       /> &nbsp;
-      <el-button type="primary" @click="notif">查询</el-button>
+      <el-button icon="el-icon-search" type="plain" @click="notif">查询</el-button>
     </div>
 
     <el-table

@@ -9,27 +9,27 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="序号" width="50">
+      <el-table-column align="center" label="序号" width="80">
         <template slot-scope="scope">
           {{ scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column align="center" label="时间" width="50">
+      <el-table-column align="center" label="时间" width="80">
         <template slot-scope="scope">
           {{ scope.row[0] }}
         </template>
       </el-table-column>
-      <el-table-column label="终端客户" width="50">
+      <el-table-column label="终端客户" width="80">
         <template slot-scope="scope">
           {{ scope.row[1] }}
         </template>
       </el-table-column>
-      <el-table-column label="设备型号" width="50" align="center">
+      <el-table-column label="设备型号" width="80" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row[2] }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="故障码" width="50" align="center">
+      <el-table-column label="故障码" width="80" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row[3] }}</span>
         </template>
@@ -61,3 +61,12 @@ export default {
   }
 }
 </script>
+
+<style>
+.el-header, .el-footer {
+  background-color: #B3C0D1;
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+}
+</style>

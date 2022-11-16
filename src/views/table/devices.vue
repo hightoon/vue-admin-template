@@ -1,20 +1,21 @@
 <template>
   <div class="app-container">
-    <el-form :inline="true" class="demo-form-inline">
-      <el-form-item label="设备名称">
-        <el-input placeholder="FAN" v-model="devname"></el-input>
-      </el-form-item>
-      <el-form-item label="设备类型">
-        <el-select placeholder="">
-          <el-option label="Device" value="device"></el-option>
-          <el-option label="Gateway" value="gateway"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="search('hello')">查询</el-button>
-      </el-form-item>
-    </el-form>
-
+    <el-row type="flex" class="row-bg" justify="center">
+      <el-form :inline="true" justify="center" class="demo-form-inline">
+        <el-form-item label="设备名称">
+          <el-input placeholder="FAN" v-model="devname"></el-input>
+        </el-form-item>
+        <el-form-item label="设备类型">
+          <el-select placeholder="">
+            <el-option label="设备" value="device"></el-option>
+            <el-option label="网关" value="gateway"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button icon="el-icon-search" type="plain" @click="search('hello')">查询</el-button>
+        </el-form-item>
+      </el-form>
+    </el-row>
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -88,14 +89,14 @@
           {{ scope.row.softVer }}
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="操作" width="360" align="center">
+      <el-table-column fixed="right" class-name="status-col" label="操作" width="360" align="center">
         <template slot-scope="scope">
         <div class="tag-group">
-          <el-link type="primary" @click="showDeviceDetails(scope.row.id)">详情</el-link> &nbsp;
-          <el-link type="primary">编辑</el-link> &nbsp;
-          <el-link type="primary">实时监控</el-link> &nbsp;
-          <el-link type="primary">配置网关</el-link> &nbsp;
-          <el-link type="warning">离线分析</el-link> &nbsp;
+          <el-button type="text" @click="showDeviceDetails(scope.row.id)">详情</el-button>
+          <el-button type="text">编辑</el-button>
+          <el-button type="text">实时监控</el-button>
+          <el-button type="text">配置网关</el-button>
+          <el-button type="warning" plain>离线分析</el-button>
         </div>
           <!--el-tag :type="scope.row[4] | statusFilter">{{ scope.row[4] }}</el-tag-->
         </template>

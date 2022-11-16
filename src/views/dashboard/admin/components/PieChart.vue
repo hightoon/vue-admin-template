@@ -22,7 +22,7 @@ export default {
     },
     height: {
       type: String,
-      default: '300px'
+      default: '200px'
     }
   },
   data() {
@@ -71,11 +71,11 @@ export default {
             trigger: 'item',
             formatter: '{a} <br/>{b} : {c} ({d}%)'
           },
-          legend: {
+          /*legend: {
             left: 'center',
             bottom: '10',
             data: ['故障', '在线', '离线']
-          },
+          },*/
           calculable: true,
           series: [
             {
