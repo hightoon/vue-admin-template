@@ -1,6 +1,5 @@
 <template>
   <div class="app-container">
-    <el-header>最新告警</el-header>
     <el-table
       v-loading="listLoading"
       :data="list"

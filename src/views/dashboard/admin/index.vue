@@ -1,18 +1,20 @@
 <template>
   <div class="dashboard-editor-container">
-
     <el-row :gutter="32">
       <el-col :xs="30" :sm="30" :lg="10">
+        <el-header>最新告警</el-header>
         <div class="chart-wrapper">
           <latest-warning />
         </div>
       </el-col>
       <el-col :xs="12" :sm="12" :lg="4">
+        <el-header>设备总数</el-header>
         <div class="chart-wrapper">
           <pie-chart />
         </div>
       </el-col>
       <el-col :xs="30" :sm="30" :lg="10">
+        <el-header>最新故障</el-header>
         <div class="chart-wrapper">
           <latest-fault />
         </div>

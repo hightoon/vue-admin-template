@@ -64,7 +64,7 @@ export default {
         this.numOfDevice = deviceOverall.reduce((a, b) => a + b, 0)
         this.chart.setOption({
           title: {
-            text: '设备总数: ' + this.numOfDevice,
+            text: this.numOfDevice,
             left: 'center'
           },
           tooltip: {
