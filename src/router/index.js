@@ -51,7 +51,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'el-icon-s-home' }
     }]
   },
 
@@ -63,7 +63,8 @@ export const constantRoutes = [
       {
         path: '',
         name: 'DeviceDetail',
-        component: () => import('@/views/table/devdetail')
+        component: () => import('@/views/table/devdetail'),
+        //meta: { title: '设备详情', icon: 'tree' }
       }
     ],
     hide: true
@@ -87,7 +88,7 @@ export const constantRoutes = [
         path: 'newdevices',
         name: 'NewDevices',
         component: () => import('@/views/table/newdevices'),
-        meta: { title: '新上设备', icon: 'tree' }
+        meta: { title: '新上设备', icon: 'el-icon-mobile' }
       }
     ]
   },
@@ -125,7 +126,7 @@ export const constantRoutes = [
         path: 'info',
         name: 'Info',
         component: () => import('@/views/info/infopage'),
-        meta: { title: '其他信息', icon: 'tree'}
+        meta: { title: '其他信息', icon: 'el-icon-more'}
       }
     ]
   },
